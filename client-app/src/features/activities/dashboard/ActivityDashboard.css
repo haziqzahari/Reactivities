@@ -1,0 +1,21 @@
+body{
+    background-image: linear-gradient(to right, rgba(205, 61, 229, 0.3), rgba(85, 229, 61, 0.3));
+}
+
+.card {
+    box-shadow: 2px 3px 5px gray;
+
+}
+
+.btn{
+    border-radius: none !important;
+}
+
+input:focus, textarea:focus{
+    border:1px solid greenyellow !important;
+    box-shadow: 0 0 10px lightgreen !important;
+}
+
+.sticky-top{
+    top: 140px !important;
+}

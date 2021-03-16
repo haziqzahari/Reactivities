@@ -1,0 +1,71 @@
+.about{
+    height: 70vh;
+    overflow: hidden;
+    font-family: 'Rubik', sans-serif;
+    box-shadow: 3px -5px 5px lightgray;
+}
+
+.about-content{
+    background-color: #565656;
+    transition: background-color ease-in-out 0.5s;
+}
+
+.about-content:hover{
+    background-color: #D9D9D9;
+}
+
+.about .title{
+    color: #FDFDFD;
+    font-size: 28px;
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    opacity: 1.0;
+    transition: opacity ease-in-out 0.3s;
+}
+
+#biodata:hover .title{
+    opacity: 0;
+}
+
+#education:hover .title{
+    opacity: 0;
+}
+
+#location:hover .title{
+    opacity: 0;
+}
+
+#contact:hover .title{
+    opacity: 0;
+}
+
+.about .subtitle{
+    position: absolute;
+    color: #404040;
+    font-size: 24px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 20px;
+    top: 50px;
+    opacity: 0;
+    transition: opacity ease-in-out 0.3s;
+}
+
+#biodata:hover .subtitle{
+    opacity: 1;
+}
+
+#education:hover .subtitle{
+    opacity: 1;
+}
+
+#location:hover .subtitle{
+    opacity: 1;
+}
+
+#contact:hover .subtitle{
+    opacity: 1;
+}
