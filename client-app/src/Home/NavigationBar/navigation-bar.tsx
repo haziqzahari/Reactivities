@@ -27,6 +27,7 @@ export default observer( function NavBar()
                             <div className="navbar-nav">
                                 <a className="nav-link active mx-2" href={state.about}>About</a>
                                 <a className="nav-link mx-2" href={state.activities}>Activities</a>
+                                <a className="nav-link mx-2" href='/errors'>Errors</a>
                                 <a href="/createActivity" className="btn btn-success mx-2">Create Activity</a>
                             </div>
                         </div>

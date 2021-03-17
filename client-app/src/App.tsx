@@ -9,6 +9,11 @@ import { Route, Switch, useLocation } from 'react-router';
 import Home from './Home/Home';
 import ActivityDetails from './features/activities/details/ActivityDetails';
 import ActivityForm from './features/activities/form/ActivityForm';
+import TestErrors from './features/errors/TestError';
+import { ToastContainer } from 'react-toastify';
+import NotFound from './features/errors/NotFound';
+import ServerError from './features/errors/ServerError';
+
 
 
 function App() {
@@ -17,6 +22,7 @@ function App() {
 
   return (
     <div>
+      <ToastContainer position="bottom-right" hideProgressBar/>
       <NavigationBar/>
       <div className="App">
         <Switch>
@@ -26,6 +32,9 @@ function App() {
           </Route>
           <Route exact key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm}/>
           <Route exact path='/activities/:id' component={ActivityDetails}/>
+          <Route exact path='/errors' component={TestErrors}/>
+          <Route exact path='/server-error' component={ServerError}/>
+          <Route component={NotFound} />
         </Switch>
       </div>
     </div>
