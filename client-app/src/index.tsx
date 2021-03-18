@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.css";
@@ -9,6 +10,7 @@ import React from 'react';
 import { BrowserRouter, Router } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.min.css';
 import {createBrowserHistory} from 'history';
+import './layout/styles.css';
 
 export const history = createBrowserHistory();
 

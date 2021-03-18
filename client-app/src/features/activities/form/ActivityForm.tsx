@@ -2,11 +2,20 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { ChangeEvent } from 'react';
 import { useParams } from 'react-router';
-import { Form } from 'semantic-ui-react';
+import { Form, FormField, Header, Label } from 'semantic-ui-react';
 import { useStore } from '../../../stores/store';
 import './ActivityForm.css';
 import {v4 as uuid} from 'uuid';
 import { useHistory } from 'react-router-dom';
+import React from 'react';
+import { ErrorMessage, Field, Formik } from 'formik';
+import * as Yup from 'yup';
+import MyTextInput from '../../../common/MyTextInput';
+import MyTextArea from '../../../common/MyTextArea';
+import MySelectInput from '../../../common/MySelectInput';
+import { categoryOptions } from '../../../common/options/categoryOptions';
+import MyDateInput from '../../../common/MyDateInput';
+import { Activity } from '../../../modules/Activity';
 
 
 export default observer( function ActivityForm() 
@@ -16,21 +25,31 @@ export default observer( function ActivityForm()
     const {selectedActivity, loadActivity, createActivity, updateActivity, loading} = activityStore;
     const {id} = useParams<{id:string}>(); 
 
-    const [activity, setActivity] = useState({
+    const [activity, setActivity] = useState<Activity>({
         id: '',
         title: '',
-        date: '',
+        date: null,
         description: '',
         category: '',
         city: '',
         venue: ''
     });
 
+
+    const validationSchema = Yup.object({
+        title: Yup.string().required('The activity title is required.'),
+        description: Yup.string().required('The activity description is required.'),
+        category: Yup.string().required('The activity category is required.'),
+        venue: Yup.string().required('The activity venue is required.'),
+        city: Yup.string().required('The activity city is required.'),
+        date: Yup.string().required('The activity date is required.').nullable()
+    })
+
     useEffect(() => {
         if (id) loadActivity(id).then(activity => setActivity(activity!));
     }, [id, loadActivity]);
 
-    function handleSubmit() 
+    function handleFormSubmit(activity: Activity) 
     {
         if ( activity.id.length === 0) {
             let newActivity = {
@@ -46,11 +65,11 @@ export default observer( function ActivityForm()
     
 
 
-    function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> )
-    {
-        const {name, value} = event.target;
-        setActivity({...activity, [name]: value})
-    }
+    // function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> )
+    // {
+    //     const {name, value} = event.target;
+    //     setActivity({...activity, [name]: value})
+    // }
 
     
 
@@ -61,21 +80,32 @@ export default observer( function ActivityForm()
                     <div className="mt-1 px-xs-2 px-md-4 pt-4">
                         <div className="card">
                             <div className="card-body" >
-                                <Form  onSubmit={handleSubmit} >
-                                    <div>
-                                        <input type="text" className="my-4 form-control" placeholder="Title" autoComplete='off'  value={activity.title} name="title" onChange={handleInputChange} autoFocus/>
-                                        <textarea className="my-4 form-control" placeholder="Description" autoComplete='off' value={activity.description} name="description" onChange={handleInputChange} rows={3}></textarea>
-                                        <input type="text" className="my-4 form-control" placeholder="Category" autoComplete='off' value={activity.category} name="category" onChange={handleInputChange}/>
-                                        <input type="date" className="my-4 form-control" placeholder="Date" autoComplete='off' value={activity.date} name="date" onChange={handleInputChange}/>
-                                        <input type="text" className="my-4 form-control" placeholder="City" autoComplete='off' value={activity.city} name="city" onChange={handleInputChange}/>
-                                        <input type="text" className="my-4 form-control" placeholder="Venue" autoComplete='off' value={activity.venue} name="venue" onChange={handleInputChange}/>    
-                                    </div>
-                                    <hr/>
-                                    <div className="mt-4">
-                                        <button disabled className="btn btn-outline-danger rounded-0 col-md-6">Cancel</button>
-                                        <button className="btn btn-success rounded-0 col-md-6" type="submit" >Submit</button>
-                                    </div>        
-                                </Form>
+                                <Header content='Activity Details' sub color='teal'/>
+                                <Formik 
+                                validationSchema={validationSchema}
+                                enableReinitialize 
+                                initialValues={activity} 
+                                onSubmit={values => handleFormSubmit(activity)}>
+                                    {({handleSubmit, isValid, isSubmitting, dirty}) => (
+                                        <Form onSubmit={handleSubmit}>
+                                        <div>
+                                            <MyTextInput name='title' placeholder='Title'/>
+                                            <MyTextArea placeholder="Description" name="description" rows={3}/>
+                                            <MySelectInput options={categoryOptions} placeholder="Category" name="category" />
+                                            <MyDateInput placeholderText="Date"  name="date" showTimeSelect timeCaption='time' dateFormat='MMMM d, yyyy h:mm aa'/>
+                                            <Header content='Location Details' sub color='teal'/>
+                                            <MyTextInput placeholder="City"  name="city"/>
+                                            <MyTextInput placeholder="Venue"   name="venue"/>    
+                                        </div>
+                                        <hr/>
+                                        <div className="mt-4">
+                                            <a href='/activities' className="btn btn-outline-danger rounded-0 col-md-6">Cancel</a>
+                                            <button className="btn btn-success rounded-0 col-md-6" type="submit" >Submit</button>
+                                        </div>        
+                                        </Form>
+                                    )}
+                                   
+                                </Formik>
                             </div>
                         </div>      
                     </div>
