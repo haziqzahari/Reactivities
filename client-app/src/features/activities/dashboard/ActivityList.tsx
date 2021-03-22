@@ -13,8 +13,8 @@ export default observer( function ActivityList()
     return (
         <div>
             {groupedActivities.map(([group, activities]) => (
-                <div className="mb-5  mt-4">
-                    <span className="p-2 mb-2">{group}</span>
+                <div className="mb-5">
+                    <span className="mb-2">{group}</span>
                     {activities.map(activity => (
                         <ActivityListItem key={activity.id} activity={activity}/>
                     ))}

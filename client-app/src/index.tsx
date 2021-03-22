@@ -11,6 +11,7 @@ import { BrowserRouter, Router } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.min.css';
 import {createBrowserHistory} from 'history';
 import './layout/styles.css';
+import 'react-calendar/dist/Calendar.css';
 
 export const history = createBrowserHistory();
 
@@ -18,7 +19,7 @@ export const history = createBrowserHistory();
 if(document.getElementById('home'))
 {
   ReactDOM.render(
-    <StoreContext.Provider value={store}>\
+    <StoreContext.Provider value={store}>
       <Router history={history}>
         <App />
       </Router> 

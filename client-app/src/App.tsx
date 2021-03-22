@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import NavigationBar from './Home/NavigationBar/navigation-bar';
 import ActivityDashboard from './features/activities/dashboard/ActivityDashboard';
@@ -13,34 +13,54 @@ import TestErrors from './features/errors/TestError';
 import { ToastContainer } from 'react-toastify';
 import NotFound from './features/errors/NotFound';
 import ServerError from './features/errors/ServerError';
+import LoginForm from './features/users/LoginForm';
+import { Container } from 'semantic-ui-react';
+import ModalContainer from './modules/ModalContainer';
 
 
 
 function App() {
-
   const location = useLocation();
+  const {commonStore, userStore} = useStore();
+
+  useEffect(() => {
+    if (commonStore.token) {
+      userStore.getUser().finally(() => commonStore.setAppLoaded());
+    } else {
+      commonStore.setAppLoaded();
+    }
+  }, [commonStore, userStore])
+
+  //if (!commonStore.appLoaded) return <LoadingComponent content='Loading app...' />
 
   return (
-    <div>
-      <ToastContainer position="bottom-right" hideProgressBar/>
-      <NavigationBar/>
-      <div className="App">
-        <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route exact path='/activities'>
-                  <ActivityDashboard/>
-          </Route>
-          <Route exact key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm}/>
-          <Route exact path='/activities/:id' component={ActivityDetails}/>
-          <Route exact path='/errors' component={TestErrors}/>
-          <Route exact path='/server-error' component={ServerError}/>
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-    </div>
+    <>
+      <ToastContainer position='bottom-right' hideProgressBar />
+      <ModalContainer />
+      <Route exact path='/' component={Home} />
+      <Route
+        path={'/(.+)'}
+        render={() => (
+          <>
+            <NavigationBar />
+            <Container style={{ marginTop: '7em' }}>
+              <Switch>
+                <Route exact path='/activities' component={ActivityDashboard} />
+                <Route path='/activities/:id' component={ActivityDetails} />
+                <Route key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm} />
+                <Route path='/errors' component={TestErrors} />
+                <Route path='/server-error' component={ServerError} />
+                <Route path='/login' component={LoginForm} />
+                <Route component={NotFound} />
+              </Switch>
+            </Container>
+          </>
+        )}
+      />
+    </>
   );
 }
 
-export default observer(App);
+export default App;
 
 

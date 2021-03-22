@@ -1,3 +1,7 @@
+/* .App {
+  text-align: center;
+} */
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -32,10 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-input{
-  color:black;
-  font-weight: 400;
-  font-family: Helvetica, sans-serif;
-}
-
